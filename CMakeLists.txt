@@ -1,12 +1,12 @@
 CMAKE_MINIMUM_REQUIRED (VERSION 3.16)
-PROJECT                (template)
+PROJECT                (halsensor)
 
 SET (ProjectName       Project)
 SET (TestsName         Tests)
 SET (LibraryName       ${CMAKE_PROJECT_NAME})
 SET (CurrentPath       ${CMAKE_CURRENT_SOURCE_DIR})
 SET (PackageNames )
-SET (PackageIncludePath )
+SET (PackageIncludePath /home/sylwester/.conan2/download/packages)
 
 MACRO (LOG_ERROR msg)
     EXECUTE_PROCESS (COMMAND ${CMAKE_COMMAND} -E cmake_echo_color --red --bold ${msg})
@@ -44,20 +44,6 @@ GET_PACKAGE_PATHS ("${PackageIncludePath}" "include" PackageIncludePaths)
 
 ENABLE_TESTING             ()
 FIND_PACKAGE               (GTest REQUIRED)
-
-SOURCE_GROUP               (TREE                              ${ProjectIncludePath} PREFIX "" FILES ${ProjectFilesAndFolders})
-LINK_DIRECTORIES           (${ProjectName}                    ${PackageLibsPaths})
-ADD_EXECUTABLE             (${ProjectName}                    ${ProjectFilesAndFolders} ${TestFilesAndFolders})
-TARGET_INCLUDE_DIRECTORIES (${ProjectName} PUBLIC             ${ProjectPathsLists} ${TestPathsLists} ${PackageIncludePaths})
-TARGET_LINK_LIBRARIES      (${ProjectName}                    ${PackageNames} gtest::gtest)
-TARGET_COMPILE_FEATURES    (${ProjectName} PUBLIC cxx_std_17)
-
-SOURCE_GROUP               (TREE                              ${TestIncludePath} PREFIX "" FILES ${TestFilesAndFolders})
-LINK_DIRECTORIES           (${TestsName}                      ${BuildPath}/lib ${PackageLibsPaths})
-ADD_EXECUTABLE             (${TestsName}                      ${ProjectFilesAndFolders} ${TestFilesAndFolders})
-TARGET_INCLUDE_DIRECTORIES (${TestsName}   PUBLIC             ${ProjectPathsLists} ${TestPathsLists})
-TARGET_LINK_LIBRARIES      (${TestsName}                      ${LibraryName} ${PackageNames} gtest::gtest)
-TARGET_COMPILE_FEATURES    (${TestsName}   PUBLIC cxx_std_17)
 
 SOURCE_GROUP               (TREE                              ${ProjectIncludePath} PREFIX "" FILES ${ProjectFilesAndFolders})
 ADD_LIBRARY                (${LibraryName} STATIC             ${ProjectFilesAndFolders} ${TestFilesAndFolders})
